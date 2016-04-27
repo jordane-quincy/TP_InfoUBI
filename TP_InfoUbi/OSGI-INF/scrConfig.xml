@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="tp_infoubi_client.Client"> 
+    <implementation class="tp_infoubi_client.Client"/> 
+    <reference name="HUMIDITE" 
+            interface="interfacePackage.CapteurHumidite" 
+            cardinality="0..n" 
+            policy="dynamic" 
+            bind="bindCapteurHumiditeService" 
+            unbind="unbindCapteurHumiditeService" 
+    />
+    <reference name="TEMPERATURE" 
+            interface="interfacePackage.CapteurTemperature" 
+            cardinality="0..n" 
+            policy="dynamic" 
+            bind="bindCapteurTemperatureService" 
+            unbind="unbindCapteurTemperatureService" 
+    />
+</component> 

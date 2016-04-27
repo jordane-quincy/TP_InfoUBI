@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="tp_infoubi_implPackageTemp.CapteurTemperatureImpl"> 
+    <implementation class="tp_infoubi_implPackageTemp.CapteurTemperatureImpl"/> 
+    <property name="localisation" value="Piece 1" />
+	<property name="unite" value="Celsius" />
+	<service>
+	  <provide interface="interfacePackage.CapteurTemperature" />
+	</service>
+</component>
