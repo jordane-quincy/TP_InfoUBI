@@ -17,6 +17,11 @@ public class Client {
 	 */
 	private final Map<String, Map<Object, Map<String, String>>> localisationServices = new TreeMap<String, Map<Object, Map<String, String>>>();
 
+	/**
+	 * Condition de fin de boucle pour le thread.
+	 */
+	private boolean go = true;
+
 	public void bindCapteurHumiditeService(final CapteurHumidite service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
@@ -76,41 +81,53 @@ public class Client {
 			@Override
 			public void run() {
 
-				System.out.println("taille service dispo : "
-						+ localisationServices.size());
-				for (final Object serviceObject : localisationServices.keySet()) {
-					final Map<Object, Map<String, String>> mapServicesDispoDansCettePiece = localisationServices
-							.get(serviceObject);
+				while (go) {
+					System.out.println("taille service dispo : "
+							+ localisationServices.size());
 
-					System.out.print("Dans "
-							+ mapServicesDispoDansCettePiece
-									.get("localisation") + " ");
-					if (serviceObject instanceof CapteurHumidite) {
-						final CapteurHumidite capteurHumidite = (CapteurHumidite) serviceObject;
-						System.out.println("le taux d'humidité est de "
-								+ capteurHumidite.getHumidite()
-								+ mapServicesDispoDansCettePiece.get("unite"));
-					} else if (serviceObject instanceof CapteurTemperature) {
-						final CapteurTemperature capteurTemperature = (CapteurTemperature) serviceObject;
-						System.out.println("il fait "
-								+ capteurTemperature.getTemp() + "°"
-								+ mapServicesDispoDansCettePiece.get("unite"));
-					} else {
-						System.out.println("serviceObject class : "
-								+ serviceObject.getClass());
+					for (final Object serviceObject : localisationServices
+							.keySet()) {
+						final Map<Object, Map<String, String>> mapServicesDispoDansCettePiece = localisationServices
+								.get(serviceObject);
+
+						System.out.print("Dans "
+								+ mapServicesDispoDansCettePiece
+										.get("localisation") + " ");
+						if (serviceObject instanceof CapteurHumidite) {
+							final CapteurHumidite capteurHumidite = (CapteurHumidite) serviceObject;
+							System.out.println("le taux d'humidité est de "
+									+ capteurHumidite.getHumidite()
+									+ mapServicesDispoDansCettePiece
+											.get("unite"));
+						} else if (serviceObject instanceof CapteurTemperature) {
+							final CapteurTemperature capteurTemperature = (CapteurTemperature) serviceObject;
+							System.out.println("il fait "
+									+ capteurTemperature.getTemp()
+									+ "°"
+									+ mapServicesDispoDansCettePiece
+											.get("unite"));
+						} else {
+							System.out.println("serviceObject class : "
+									+ serviceObject.getClass());
+						}
+
 					}
 
-				}
-
-				try {
-					Thread.sleep(3000); // on check toutes les 3 secondes
-				} catch (final InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						Thread.sleep(3000); // on check toutes les 3 secondes
+					} catch (final InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
 
-		t.run();
+		t.start();
+	}
+
+	protected void deactivate(final ComponentContext context) {
+		System.out.println("deactivation du clietn");
+		go = false;
 	}
 }
