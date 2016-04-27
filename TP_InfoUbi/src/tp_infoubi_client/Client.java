@@ -25,6 +25,7 @@ public class Client {
 	public void bindCapteurHumiditeService(final CapteurHumidite service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
+			System.out.println("IN - bindCapteurHumiditeService");
 			final String localisationDuService = props.get("localisation");
 
 			final Map<Object, Map<String, String>> serviceInfosMap = new HashMap<Object, Map<String, String>>();
@@ -37,6 +38,7 @@ public class Client {
 	public void bindCapteurTemperatureService(final CapteurTemperature service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
+			System.out.println("IN - bindCapteurTemperatureService");
 			final String localisationDuService = props.get("localisation");
 
 			final Map<Object, Map<String, String>> serviceInfosMap = new HashMap<Object, Map<String, String>>();
@@ -49,6 +51,7 @@ public class Client {
 	public void unbindCapteurHumiditeService(final CapteurHumidite service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
+			System.out.println("IN - unbindCapteurHumiditeService");
 			final String localisationDuService = props.get("localisation");
 
 			final Map<Object, Map<String, String>> mapDesServicesDispoDansCettePiece = localisationServices
@@ -64,6 +67,7 @@ public class Client {
 	public void unbindCapteurTemperatureService(
 			final CapteurTemperature service, final Map<String, String> props) {
 		synchronized (localisationServices) {
+			System.out.println("IN - unbindCapteurTemperatureService");
 			final String localisationDuService = props.get("localisation");
 
 			final Map<Object, Map<String, String>> mapDesServicesDispoDansCettePiece = localisationServices
@@ -127,7 +131,7 @@ public class Client {
 	}
 
 	protected void deactivate(final ComponentContext context) {
-		System.out.println("deactivation du clietn");
+		System.out.println("desactivation du client");
 		go = false;
 	}
 }

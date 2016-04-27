@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="tp_infoubi_client.Client"> 
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="tp_infoubi_client.Client"> 
     <implementation class="tp_infoubi_client.Client"/> 
     <reference name="HUMIDITE" 
             interface="interfacePackage.CapteurHumidite" 
@@ -15,4 +15,4 @@
             bind="bindCapteurTemperatureService" 
             unbind="unbindCapteurTemperatureService" 
     />
-</component> 
+</scr:component> 
