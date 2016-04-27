@@ -89,32 +89,34 @@ public class Client {
 					System.out.println("taille service dispo : "
 							+ localisationServices.size());
 
-					for (final Object serviceObject : localisationServices
+					final StringBuffer buff = new StringBuffer();
+					for (final String localisationString : localisationServices
 							.keySet()) {
 						final Map<Object, Map<String, String>> mapServicesDispoDansCettePiece = localisationServices
-								.get(serviceObject);
+								.get(localisationString);
 
-						System.out.print("Dans "
-								+ mapServicesDispoDansCettePiece
-										.get("localisation") + " ");
-						if (serviceObject instanceof CapteurHumidite) {
-							final CapteurHumidite capteurHumidite = (CapteurHumidite) serviceObject;
-							System.out.println("le taux d'humidité est de "
-									+ capteurHumidite.getHumidite()
-									+ mapServicesDispoDansCettePiece
-											.get("unite"));
-						} else if (serviceObject instanceof CapteurTemperature) {
-							final CapteurTemperature capteurTemperature = (CapteurTemperature) serviceObject;
-							System.out.println("il fait "
-									+ capteurTemperature.getTemp()
-									+ "°"
-									+ mapServicesDispoDansCettePiece
-											.get("unite"));
-						} else {
-							System.out.println("serviceObject class : "
-									+ serviceObject.getClass());
+						System.out
+								.println("Dans '" + localisationString + "' ");
+						for (final Object serviceObject : mapServicesDispoDansCettePiece
+								.keySet()) {
+							final Map<String, String> serviceProps = mapServicesDispoDansCettePiece
+									.get(serviceObject);
+
+							if (serviceObject instanceof CapteurHumidite) {
+								final CapteurHumidite capteurHumidite = (CapteurHumidite) serviceObject;
+								System.out.println("le taux d'humidité est de "
+										+ capteurHumidite.getHumidite()
+										+ serviceProps.get("unite"));
+							} else if (serviceObject instanceof CapteurTemperature) {
+								final CapteurTemperature capteurTemperature = (CapteurTemperature) serviceObject;
+								System.out.println("il fait "
+										+ capteurTemperature.getTemp() + "°"
+										+ serviceProps.get("unite"));
+							} else {
+								System.out.println("serviceObject class : "
+										+ serviceObject.getClass());
+							}
 						}
-
 					}
 
 					try {
