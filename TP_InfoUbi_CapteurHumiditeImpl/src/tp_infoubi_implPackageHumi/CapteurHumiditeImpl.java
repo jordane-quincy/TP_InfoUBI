@@ -9,7 +9,7 @@ public class CapteurHumiditeImpl implements CapteurHumidite {
 	private final static Random random = new Random();
 
 	public int getHumidite() {
-		return randIntBetween(-40, 50);
+		return randIntBetween(0, 99);
 	}
 
 	private static int randIntBetween(final int min, final int max) {
