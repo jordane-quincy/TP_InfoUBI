@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="tp_infoubi_implPackageTemp.CapteurTemperatureImpl2" immediate="true"> 
+    <implementation class="tp_infoubi_implPackageTemp.CapteurTemperatureImpl2"/> 
+    <property name="localisation" value="Piece 2" />
+	<property name="unite" value="Celsius" />
+	<service>
+	  <provide interface="interfacePackage.CapteurTemperature" />
+	</service>
+</scr:component>
