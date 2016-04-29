@@ -15,4 +15,11 @@
             bind="bindCapteur"
             unbind="unbindCapteur"
     />
+    <reference name="CONVERTISSEUR" 
+            interface="interfacePackage.ConvertisseurFahrenheitVersCelsius" 
+            cardinality="0..1" 
+            policy="dynamic" 
+            bind="bindConvertisseur"
+            unbind="unbindConvertisseur"
+    />
 </scr:component> 

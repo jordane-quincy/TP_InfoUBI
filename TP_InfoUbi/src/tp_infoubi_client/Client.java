@@ -2,6 +2,7 @@ package tp_infoubi_client;
 
 import interfacePackage.CapteurHumidite;
 import interfacePackage.CapteurTemperature;
+import interfacePackage.ConvertisseurFahrenheitVersCelsius;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,11 @@ public class Client {
 	private final Map<String, Map<Object, Map<String, String>>> localisationServices = new TreeMap<String, Map<Object, Map<String, String>>>();
 
 	/**
+	 * Convertisseur de Fahrenheit vers Celsius.
+	 */
+	private ConvertisseurFahrenheitVersCelsius convertisseur = null;
+
+	/**
 	 * Condition de fin de boucle pour le thread.
 	 */
 	private boolean go = true;
@@ -25,24 +31,17 @@ public class Client {
 	public void bindCapteur(final Object service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
-			System.out.println("bind Capteur : " + service.getClass().getName()
-					+ ", pros : " + props.toString() + ", avant ajout : "
-					+ localisationServices.size());
+			System.out
+					.println("bind Capteur : " + service.getClass().getName());
 
 			final String localisationDuCapteur = props.get("localisation");
 
 			final Map<Object, Map<String, String>> capteurInfosMap = localisationServices
 					.get(localisationDuCapteur) == null ? new HashMap<Object, Map<String, String>>()
 					: localisationServices.get(localisationDuCapteur);
-			System.out.println("serviceInfosMap avant : " + capteurInfosMap);
 			capteurInfosMap.put(service, props);
-			System.out.println("serviceInfosMap apres : " + capteurInfosMap);
 
-			System.out.println("avant ajout : " + localisationServices.size()
-					+ ", " + capteurInfosMap.size());
 			localisationServices.put(localisationDuCapteur, capteurInfosMap);
-			System.out.println("apres ajout : " + localisationServices.size()
-					+ ", " + capteurInfosMap.size());
 		}
 	}
 
@@ -62,15 +61,25 @@ public class Client {
 		}
 	}
 
+	public void bindConvertisseur(final ConvertisseurFahrenheitVersCelsius conv) {
+		System.out.println("bind Convertisseur");
+
+		convertisseur = conv;
+	}
+
+	public void unbindConvertisseur(
+			final ConvertisseurFahrenheitVersCelsius conv) {
+		System.out.println("unbind Convertisseur");
+
+		convertisseur = null;
+	}
+
 	protected void activate(final ComponentContext context) {
 		final Thread t = new Thread() {
 			@Override
 			public void run() {
 
 				while (go) {
-					System.out
-							.println("nb localisation avec au moins un capteur : "
-									+ localisationServices.size());
 
 					for (final String localisationString : localisationServices
 							.keySet()) {
@@ -94,12 +103,20 @@ public class Client {
 										.append(".\n");
 							} else if (serviceObject instanceof CapteurTemperature) {
 								final CapteurTemperature capteurTemperature = (CapteurTemperature) serviceObject;
+								int temperature = capteurTemperature.getTemp();
+								String unite = serviceProps.get("unite");
+								if ("Fahrenheit".equals(unite)) {
+									if (convertisseur == null) {
+										continue;
+									} else {
+										temperature = convertisseur
+												.convertirFtoC(temperature);
+										unite = "Celsius";
+									}
+								}
 								buffLocalisation.append(
-										"- il fait "
-												+ capteurTemperature.getTemp()
-												+ "°"
-												+ serviceProps.get("unite"))
-										.append(".\n");
+										"- il fait " + temperature + "°"
+												+ unite).append(".\n");
 							} else {
 								System.err
 										.println("Type de capteur inconnu ! Sa classe : "
@@ -110,8 +127,11 @@ public class Client {
 						System.out.println(buffLocalisation.toString());
 					}
 
+					System.out
+							.println("-----------------------------------------\n");
+
 					try {
-						Thread.sleep(10000); // on check toutes les 3 secondes
+						Thread.sleep(10000); // on check toutes les 10 secondes
 					} catch (final InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
