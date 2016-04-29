@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TP_InfoUbi_CapteurTempImpl3Fahrenheit
+Bundle-SymbolicName: TP_InfoUbi_CapteurTempImpl3Fahrenheit
+Bundle-Version: 0.0.1.qualifier
+Import-Package: interfacePackage,
+ org.osgi.framework;version="1.3.0"
+Service-Component: OSGI-INF/scrConfig.xml
