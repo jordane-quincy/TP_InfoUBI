@@ -22,72 +22,34 @@ public class Client {
 	 */
 	private boolean go = true;
 
-	public void bindCapteurHumiditeService(final CapteurHumidite service,
+	public void bindCapteur(final Object service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
-			final String localisationDuService = props.get("localisation");
-			System.out.println("bind Capteur Humidite : "
-					+ service.getClass().getName() + ", pros : "
-					+ props.toString());
-
-			final Map<Object, Map<String, String>> serviceInfosMap = localisationServices
-					.get(localisationDuService) == null ? new HashMap<Object, Map<String, String>>()
-					: localisationServices.get(localisationDuService);
-			serviceInfosMap.put(service, props);
-
-			System.out.println("avant ajout : " + localisationServices.size()
-					+ ", " + serviceInfosMap.size());
-			localisationServices.put(localisationDuService, serviceInfosMap);
-			System.out.println("apres ajout : " + localisationServices.size()
-					+ ", " + serviceInfosMap.size());
-		}
-	}
-
-	public void bindCapteurTemperatureService(final CapteurTemperature service,
-			final Map<String, String> props) {
-		synchronized (localisationServices) {
-			System.out.println("bind Capteur Temperature : "
-					+ service.getClass().getName() + ", pros : "
-					+ props.toString() + ", avant ajout : "
+			System.out.println("bind Capteur : " + service.getClass().getName()
+					+ ", pros : " + props.toString() + ", avant ajout : "
 					+ localisationServices.size());
 
-			final String localisationDuService = props.get("localisation");
+			final String localisationDuCapteur = props.get("localisation");
 
-			final Map<Object, Map<String, String>> serviceInfosMap = localisationServices
-					.get(localisationDuService) == null ? new HashMap<Object, Map<String, String>>()
-					: localisationServices.get(localisationDuService);
-			System.out.println("serviceInfosMap avant : " + serviceInfosMap);
-			serviceInfosMap.put(service, props);
-			System.out.println("serviceInfosMap apres : " + serviceInfosMap);
+			final Map<Object, Map<String, String>> capteurInfosMap = localisationServices
+					.get(localisationDuCapteur) == null ? new HashMap<Object, Map<String, String>>()
+					: localisationServices.get(localisationDuCapteur);
+			System.out.println("serviceInfosMap avant : " + capteurInfosMap);
+			capteurInfosMap.put(service, props);
+			System.out.println("serviceInfosMap apres : " + capteurInfosMap);
 
 			System.out.println("avant ajout : " + localisationServices.size()
-					+ ", " + serviceInfosMap.size());
-			localisationServices.put(localisationDuService, serviceInfosMap);
+					+ ", " + capteurInfosMap.size());
+			localisationServices.put(localisationDuCapteur, capteurInfosMap);
 			System.out.println("apres ajout : " + localisationServices.size()
-					+ ", " + serviceInfosMap.size());
+					+ ", " + capteurInfosMap.size());
 		}
 	}
 
-	public void unbindCapteurHumiditeService(final CapteurHumidite service,
+	public void unbindCapteur(final Object service,
 			final Map<String, String> props) {
 		synchronized (localisationServices) {
-			System.out.println("IN - unbindCapteurHumiditeService");
-			final String localisationDuService = props.get("localisation");
-
-			final Map<Object, Map<String, String>> mapDesServicesDispoDansCettePiece = localisationServices
-					.get(localisationDuService);
-			mapDesServicesDispoDansCettePiece.remove(service);
-
-			if (mapDesServicesDispoDansCettePiece.isEmpty()) {
-				localisationServices.remove(localisationDuService);
-			}
-		}
-	}
-
-	public void unbindCapteurTemperatureService(
-			final CapteurTemperature service, final Map<String, String> props) {
-		synchronized (localisationServices) {
-			System.out.println("IN - unbindCapteurTemperatureService");
+			System.out.println("unbind Capteur");
 			final String localisationDuService = props.get("localisation");
 
 			final Map<Object, Map<String, String>> mapDesServicesDispoDansCettePiece = localisationServices
@@ -125,21 +87,24 @@ public class Client {
 
 							if (serviceObject instanceof CapteurHumidite) {
 								final CapteurHumidite capteurHumidite = (CapteurHumidite) serviceObject;
-								buffLocalisation
-										.append("- le taux d'humidité est de "
+								buffLocalisation.append(
+										"- le taux d'humidité est de "
 												+ capteurHumidite.getHumidite()
-												+ serviceProps.get("unite"));
+												+ serviceProps.get("unite"))
+										.append(".\n");
 							} else if (serviceObject instanceof CapteurTemperature) {
 								final CapteurTemperature capteurTemperature = (CapteurTemperature) serviceObject;
-								buffLocalisation.append("- il fait "
-										+ capteurTemperature.getTemp() + "°"
-										+ serviceProps.get("unite"));
+								buffLocalisation.append(
+										"- il fait "
+												+ capteurTemperature.getTemp()
+												+ "°"
+												+ serviceProps.get("unite"))
+										.append(".\n");
 							} else {
-								System.err.println("serviceObject class : "
-										+ serviceObject.getClass());
+								System.err
+										.println("Type de capteur inconnu ! Sa classe : "
+												+ serviceObject.getClass());
 							}
-
-							buffLocalisation.append(".\n");
 						}
 
 						System.out.println(buffLocalisation.toString());

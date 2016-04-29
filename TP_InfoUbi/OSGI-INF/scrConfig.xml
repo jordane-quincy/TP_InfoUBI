@@ -5,14 +5,14 @@
             interface="interfacePackage.CapteurHumidite" 
             cardinality="0..n" 
             policy="dynamic" 
-            bind="bindCapteurHumiditeService" 
-            unbind="unbindCapteurHumiditeService" 
+            bind="bindCapteur"
+            unbind="unbindCapteur"
     />
     <reference name="TEMPERATURE" 
             interface="interfacePackage.CapteurTemperature" 
             cardinality="0..n" 
             policy="dynamic" 
-            bind="bindCapteurTemperatureService" 
-            unbind="unbindCapteurTemperatureService" 
+            bind="bindCapteur"
+            unbind="unbindCapteur"
     />
 </scr:component> 
