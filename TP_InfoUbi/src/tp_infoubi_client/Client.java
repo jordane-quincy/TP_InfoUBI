@@ -107,11 +107,13 @@ public class Client {
 								String unite = serviceProps.get("unite");
 								if ("Fahrenheit".equals(unite)) {
 									if (convertisseur == null) {
+										buffLocalisation
+												.append("Capteur de temperature mais pas de convertisseur.");
 										continue;
 									} else {
 										temperature = convertisseur
 												.convertirFtoC(temperature);
-										unite = "Celsius";
+										unite = "Celsius (depuis Fahrenheit)";
 									}
 								}
 								buffLocalisation.append(
