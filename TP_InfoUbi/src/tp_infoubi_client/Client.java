@@ -108,7 +108,8 @@ public class Client {
 								if ("Fahrenheit".equals(unite)) {
 									if (convertisseur == null) {
 										buffLocalisation
-												.append("Capteur de temperature mais pas de convertisseur.");
+												.append("Capteur de temperature mais pas de convertisseur")
+												.append(".\n");
 										continue;
 									} else {
 										temperature = convertisseur
