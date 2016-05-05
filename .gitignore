@@ -13,8 +13,4 @@ hs_err_pid*
 
 #ajout manuel
 *.metadata*
-.gitignore
-*.classpath
 *.settings*
-build.properties
-*.project
